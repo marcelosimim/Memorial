@@ -42,19 +42,6 @@ class GameViewController: UIViewController {
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Opções", style: .plain, target: self, action: #selector(optionMenu))
     }
 
-    @objc private func optionMenu() {
-        let actionSheet = UIAlertController(title: "Opções", message: "", preferredStyle: .actionSheet)
-        actionSheet.addAction(UIAlertAction(title: "Reiniciar", style: .default, handler: { [weak self] _ in
-            guard let self = self else { return }
-            self.startGame()
-        }))
-        actionSheet.addAction(UIAlertAction(title: "Sair", style: .default, handler: { [weak self] _ in
-            guard let self = self else { return }
-            self.navigationController?.popViewController(animated: true)
-        }))
-        present(actionSheet, animated: true)
-    }
-
     private func setupCollectionView() {
         customView.collectionView.delegate = self
         customView.collectionView.dataSource = self
@@ -78,6 +65,12 @@ class GameViewController: UIViewController {
         }.disposed(by: disposeBag)
     }
 
+    private func startGame() {
+        DispatchQueue.main.asyncAfter(deadline: .now()+1.0) {
+            self.viewModel.startGame()
+        }
+    }
+
     private func highlightCell(_ row: Int) {
         guard let cell = customView.collectionView.cellForItem(at: IndexPath(row: row, section: 0)) as? ButtonCell else { return }
         cell.highlightCell()
@@ -93,12 +86,6 @@ class GameViewController: UIViewController {
         cell.wrongCell()
     }
 
-    private func startGame() {
-        DispatchQueue.main.asyncAfter(deadline: .now()+1.0) {
-            self.viewModel.startGame()
-        }
-    }
-
     private func showError() {
         let alert = UIAlertController(title: "Botão errado!", message: "Seu máximo de botões foi: \(viewModel.numberOfHits)", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Reiniciar", style: .default, handler: { [weak self] _ in
@@ -111,6 +98,19 @@ class GameViewController: UIViewController {
         }))
         present(alert, animated: true)
     }
+
+    @objc private func optionMenu() {
+        let actionSheet = UIAlertController(title: "Opções", message: "", preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(title: "Reiniciar", style: .default, handler: { [weak self] _ in
+            guard let self = self else { return }
+            self.startGame()
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Sair", style: .default, handler: { [weak self] _ in
+            guard let self = self else { return }
+            self.navigationController?.popViewController(animated: true)
+        }))
+        present(actionSheet, animated: true)
+    }
 }
 
 extension GameViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
@@ -121,7 +121,6 @@ extension GameViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: ButtonCell.identifier, for: indexPath) as? ButtonCell else { fatalError() }
         cell.configure()
-        cell.tag = indexPath.row
         return cell
     }
 
