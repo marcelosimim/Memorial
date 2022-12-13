@@ -11,12 +11,10 @@ import Foundation
 import UIKit
 
 protocol GameViewProtocol {
-    var view: UIView { get }
     var collectionView: UICollectionView { get set }
 }
 
-final class GameView: GameViewProtocol {
-    var view = UIView()
+final class GameView: UIView, GameViewProtocol {
     lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
         collectionView.register(ButtonCell.self, forCellWithReuseIdentifier: ButtonCell.identifier)
@@ -24,22 +22,23 @@ final class GameView: GameViewProtocol {
         return collectionView
     }()
 
-    init() {
-        view.backgroundColor = .white
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        backgroundColor = .white
         addViews()
     }
 
     private func addViews() {
-        view.addSubview(collectionView)
+        addSubview(collectionView)
         setupConstraints()
     }
 
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            collectionView.topAnchor.constraint(equalTo: topAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
+            collectionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
 }

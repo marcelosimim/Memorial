@@ -34,7 +34,7 @@ class GameViewController: UIViewController {
 
     override func loadView() {
         super.loadView()
-        view = customView.view
+        view = customView as? UIView
     }
 
     private func setupNavigationBar() {

@@ -16,15 +16,13 @@ protocol HomeViewDelegate: AnyObject {
 
 protocol HomeViewProtocol {
     var delegate: HomeViewDelegate? { get set }
-    var view: UIView { get }
 
     func getNumberOfButtons() -> String
     func setupRecordLabel(_ record: Int)
 }
 
-final class HomeView: HomeViewProtocol {
+final class HomeView: UIView, HomeViewProtocol {
     var delegate: HomeViewDelegate?
-    var view = UIView()
 
     private lazy var welcomeLabel: UILabel = {
         let label = UILabel()
@@ -82,21 +80,22 @@ final class HomeView: HomeViewProtocol {
         return stack
     }()
 
-    init() {
-        view.backgroundColor = .white
-        view.addSubview(contentStack)
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        backgroundColor = .white
         addViews()
     }
 
     private func addViews() {
+        addSubview(contentStack)
         setupConstraints()
     }
 
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            contentStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 64),
-            contentStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            contentStack.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            contentStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 64),
+            contentStack.centerXAnchor.constraint(equalTo: centerXAnchor),
+            contentStack.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
 
