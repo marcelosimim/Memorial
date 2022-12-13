@@ -11,6 +11,7 @@ import RxRelay
 
 protocol GameViewModelProtocol {
     var numberOfButtons: Int { get set }
+    var numberOfHits: Int { get }
     var selectCell: PublishRelay<Int> { get }
     var rightCellSelected: PublishRelay<Int> { get }
     var wrongCellSelected: PublishRelay<Int> { get }
@@ -26,26 +27,27 @@ final class GameViewModel: GameViewModelProtocol {
     private var buttonSequence: [Int] = []
     private var userSequence: [Int] = []
     private var suportSequence: [Int] = []
-    private var numberOfHits = 0
 
-    var numberOfButtons: Int = 0
+    var numberOfHits = 0
+    var numberOfButtons = 0
     var selectCell = PublishRelay<Int>()
     var rightCellSelected = PublishRelay<Int>()
     var wrongCellSelected = PublishRelay<Int>()
 
     func startGame() {
+        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(showSequence), userInfo: nil, repeats: true)
         buttonSequence = []
         chooseCell()
     }
 
     func continueGame() {
+        numberOfHits += 1
         timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(showSequence), userInfo: nil, repeats: true)
         chooseCell()
     }
 
     func checkMove(_ button: Int) {
         if userSequence.first == button {
-            numberOfHits += 1
             rightCellSelected.accept(button)
             userSequence.remove(at: 0)
             if userSequence.count == 0 {

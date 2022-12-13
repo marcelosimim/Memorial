@@ -26,17 +26,33 @@ class GameViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.hidesBackButton = true
+        setupNavigationBar()
         setupCollectionView()
         viewModelBinds()
-        DispatchQueue.main.asyncAfter(deadline: .now()+1.0) {
-            self.viewModel.startGame()
-        }
+        startGame()
     }
 
     override func loadView() {
         super.loadView()
         view = customView.view
+    }
+
+    private func setupNavigationBar() {
+        navigationItem.hidesBackButton = true
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Opções", style: .plain, target: self, action: #selector(optionMenu))
+    }
+
+    @objc private func optionMenu() {
+        let actionSheet = UIAlertController(title: "Opções", message: "", preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(title: "Reiniciar", style: .default, handler: { [weak self] _ in
+            guard let self = self else { return }
+            self.startGame()
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Sair", style: .default, handler: { [weak self] _ in
+            guard let self = self else { return }
+            self.navigationController?.popViewController(animated: true)
+        }))
+        present(actionSheet, animated: true)
     }
 
     private func setupCollectionView() {
@@ -58,6 +74,7 @@ class GameViewController: UIViewController {
         viewModel.wrongCellSelected.bind { [weak self] row in
             guard let self = self else { return }
             self.wrongCell(row)
+            self.showError()
         }.disposed(by: disposeBag)
     }
 
@@ -74,6 +91,25 @@ class GameViewController: UIViewController {
     private func wrongCell(_ row: Int) {
         guard let cell = customView.collectionView.cellForItem(at: IndexPath(row: row, section: 0)) as? ButtonCell else { return }
         cell.wrongCell()
+    }
+
+    private func startGame() {
+        DispatchQueue.main.asyncAfter(deadline: .now()+1.0) {
+            self.viewModel.startGame()
+        }
+    }
+
+    private func showError() {
+        let alert = UIAlertController(title: "Botão errado!", message: "Seu máximo de botões foi: \(viewModel.numberOfHits)", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Reiniciar", style: .default, handler: { [weak self] _ in
+            guard let self = self else { return }
+            self.startGame()
+        }))
+        alert.addAction(UIAlertAction(title: "Sair", style: .default, handler: { [weak self] _ in
+            guard let self = self else { return }
+            self.navigationController?.popViewController(animated: true)
+        }))
+        present(alert, animated: true)
     }
 }
 
