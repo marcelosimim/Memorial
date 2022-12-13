@@ -20,6 +20,7 @@
 		A3CFE1DF2947B38F00749CD5 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CFE1DC2947B38F00749CD5 /* GameViewModel.swift */; };
 		A3CFE1E22947B5EA00749CD5 /* ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CFE1E12947B5EA00749CD5 /* ButtonCell.swift */; };
 		A3CFE1E52948973E00749CD5 /* UserRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CFE1E42948973E00749CD5 /* UserRecord.swift */; };
+		A3CFE1E72948AB6400749CD5 /* CellConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CFE1E62948AB6400749CD5 /* CellConfiguration.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +40,7 @@
 		A3CFE1DC2947B38F00749CD5 /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
 		A3CFE1E12947B5EA00749CD5 /* ButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCell.swift; sourceTree = "<group>"; };
 		A3CFE1E42948973E00749CD5 /* UserRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRecord.swift; sourceTree = "<group>"; };
+		A3CFE1E62948AB6400749CD5 /* CellConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellConfiguration.swift; sourceTree = "<group>"; };
 		EC50AB596455CEFBCA8F1B11 /* Pods_Memorial.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Memorial.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -153,6 +155,7 @@
 			isa = PBXGroup;
 			children = (
 				A3CFE1E42948973E00749CD5 /* UserRecord.swift */,
+				A3CFE1E62948AB6400749CD5 /* CellConfiguration.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -280,6 +283,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A33D370C294793D300A77AB1 /* AppDelegate.swift in Sources */,
+				A3CFE1E72948AB6400749CD5 /* CellConfiguration.swift in Sources */,
 				A3CFE1D72947A7E800749CD5 /* HomeView.swift in Sources */,
 				A33D370E294793D300A77AB1 /* SceneDelegate.swift in Sources */,
 				A3CFE1D82947A7E800749CD5 /* HomeViewModel.swift in Sources */,

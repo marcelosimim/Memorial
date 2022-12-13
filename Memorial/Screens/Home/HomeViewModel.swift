@@ -7,19 +7,34 @@
 //
 //
 import Foundation
+import RxRelay
 
 protocol HomeViewModelProtocol {
-    var didFinishValidation: ((String) -> Void) { get set }
-    var didFinishValidationFailure: ((String) -> Void) { get set }
+    var didFinishValidation: PublishRelay<Int> { get }
+    var didFinishValidationFailure: PublishRelay<Void> { get }
+    var record: PublishRelay<Int> { get }
 
     func verify(_ text: String)
+    func setupRecord()
 }
 
 final class HomeViewModel: HomeViewModelProtocol {
-    var didFinishValidation: ((String) -> Void) = { _ in }
-    var didFinishValidationFailure: ((String) -> Void) = { _ in }
+    private let userRecord = UserRecord()
+    var didFinishValidation = PublishRelay<Int>()
+    var didFinishValidationFailure = PublishRelay<Void>()
+    var record = PublishRelay<Int>()
 
     func verify(_ text: String) {
-        didFinishValidation(text)
+        guard let number = Int(text) else { return }
+        if number <= CellConfiguration.maxElements() {
+            didFinishValidation.accept(number)
+        } else {
+            didFinishValidationFailure.accept(())
+        }
+    }
+
+    func setupRecord() {
+        print(UIScreen.main.bounds.height)
+        record.accept(userRecord.currentRecord)
     }
 }

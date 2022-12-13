@@ -19,6 +19,7 @@ protocol HomeViewProtocol {
     var view: UIView { get }
 
     func getNumberOfButtons() -> String
+    func setupRecordLabel(_ record: Int)
 }
 
 final class HomeView: HomeViewProtocol {
@@ -29,6 +30,15 @@ final class HomeView: HomeViewProtocol {
         let label = UILabel()
         label.text = "BEM VINDO(A)!"
         label.font = .systemFont(ofSize: 32, weight: .bold)
+        label.numberOfLines = 0
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+
+    private lazy var recordLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 24, weight: .regular)
         label.numberOfLines = 0
         label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -65,7 +75,7 @@ final class HomeView: HomeViewProtocol {
     }()
 
     private lazy var contentStack: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [welcomeLabel, infoLabel, inputTextField, startButton])
+        let stack = UIStackView(arrangedSubviews: [welcomeLabel, recordLabel, infoLabel, inputTextField, startButton])
         stack.spacing = 32
         stack.axis = .vertical
         stack.translatesAutoresizingMaskIntoConstraints = false
@@ -97,5 +107,9 @@ final class HomeView: HomeViewProtocol {
     func getNumberOfButtons() -> String {
         guard let text = inputTextField.text else { return "" }
         return text
+    }
+
+    func setupRecordLabel(_ record: Int) {
+        recordLabel.text = "O record atual é: \(record)"
     }
 }
