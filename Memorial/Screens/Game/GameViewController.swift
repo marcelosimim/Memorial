@@ -70,6 +70,14 @@ class GameViewController: UIViewController {
             self.wrongCell(row)
             self.showError()
         }.disposed(by: disposeBag)
+
+        viewModel.numberOfHits.bind { [weak self] numberOfHits in
+            self?.customView.setupLevel(numberOfHits)
+        }.disposed(by: disposeBag)
+
+        viewModel.time.bind { [weak self] time in
+            self?.customView.setupTime(time)
+        }.disposed(by: disposeBag)
     }
 
     private func startGame() {
