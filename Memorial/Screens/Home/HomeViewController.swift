@@ -45,12 +45,13 @@ class HomeViewController: UIViewController {
     }
 
     private func start(_ number: Int) {
-        let vc = GameViewController(numberOfButtons: number)
+        let vc = ConfigurationViewController()
+        // let vc = GameViewController(numberOfButtons: number)
         navigationController?.pushViewController(vc, animated: true)
     }
 
     private func showError() {
-        let alert = UIAlertController(title: "Acima do número permitido", message: "Escolha no máximo \(CellConfiguration.maxElements()) botões", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Acima do número permitido", message: "Escolha no máximo \(CellConfiguration.customMaxElements()) botões", preferredStyle: .alert)
         let action = UIAlertAction(title: "Ok", style: .cancel)
         alert.addAction(action)
         present(alert, animated: true)

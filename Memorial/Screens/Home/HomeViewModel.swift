@@ -26,7 +26,7 @@ final class HomeViewModel: HomeViewModelProtocol {
 
     func verify(_ text: String) {
         guard let number = Int(text) else { return }
-        if number <= CellConfiguration.maxElements() {
+        if number <= (CellConfiguration.maxElements ?? CellConfiguration.defaultMaxElements()) {
             didFinishValidation.accept(number)
         } else {
             didFinishValidationFailure.accept(())

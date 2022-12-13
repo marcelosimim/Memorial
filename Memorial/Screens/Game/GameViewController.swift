@@ -160,7 +160,7 @@ extension GameViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        CGSize(width: CellConfiguration.size(), height: CellConfiguration.size())
+        CGSize(width: CellConfiguration.customSize(), height: CellConfiguration.customSize())
     }
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

@@ -22,6 +22,9 @@
 		A3CFE1E52948973E00749CD5 /* UserRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CFE1E42948973E00749CD5 /* UserRecord.swift */; };
 		A3CFE1E72948AB6400749CD5 /* CellConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CFE1E62948AB6400749CD5 /* CellConfiguration.swift */; };
 		A3EF476C29490A6A003B24CE /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EF476B29490A6A003B24CE /* UIImage.swift */; };
+		A3EF477A29491F36003B24CE /* ConfigurationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EF477629491F36003B24CE /* ConfigurationViewController.swift */; };
+		A3EF477B29491F36003B24CE /* ConfigurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EF477729491F36003B24CE /* ConfigurationView.swift */; };
+		A3EF477C29491F36003B24CE /* ConfigurationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EF477829491F36003B24CE /* ConfigurationViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +46,9 @@
 		A3CFE1E42948973E00749CD5 /* UserRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRecord.swift; sourceTree = "<group>"; };
 		A3CFE1E62948AB6400749CD5 /* CellConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellConfiguration.swift; sourceTree = "<group>"; };
 		A3EF476B29490A6A003B24CE /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
+		A3EF477629491F36003B24CE /* ConfigurationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationViewController.swift; sourceTree = "<group>"; };
+		A3EF477729491F36003B24CE /* ConfigurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationView.swift; sourceTree = "<group>"; };
+		A3EF477829491F36003B24CE /* ConfigurationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigurationViewModel.swift; sourceTree = "<group>"; };
 		EC50AB596455CEFBCA8F1B11 /* Pods_Memorial.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Memorial.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -129,6 +135,7 @@
 		A33D3726294795DF00A77AB1 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				A3EF476D29491E9F003B24CE /* Configuration */,
 				A3CFE1D32947A7E800749CD5 /* HomeViewController.swift */,
 				A3CFE1D42947A7E800749CD5 /* HomeView.swift */,
 				A3CFE1D52947A7E800749CD5 /* HomeViewModel.swift */,
@@ -169,6 +176,16 @@
 				A3EF476B29490A6A003B24CE /* UIImage.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		A3EF476D29491E9F003B24CE /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				A3EF477629491F36003B24CE /* ConfigurationViewController.swift */,
+				A3EF477729491F36003B24CE /* ConfigurationView.swift */,
+				A3EF477829491F36003B24CE /* ConfigurationViewModel.swift */,
+			);
+			path = Configuration;
 			sourceTree = "<group>";
 		};
 		AA6446D86F5190873A7D3FA3 /* Frameworks */ = {
@@ -294,9 +311,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				A33D370C294793D300A77AB1 /* AppDelegate.swift in Sources */,
+				A3EF477B29491F36003B24CE /* ConfigurationView.swift in Sources */,
 				A3CFE1E72948AB6400749CD5 /* CellConfiguration.swift in Sources */,
 				A3CFE1D72947A7E800749CD5 /* HomeView.swift in Sources */,
 				A33D370E294793D300A77AB1 /* SceneDelegate.swift in Sources */,
+				A3EF477A29491F36003B24CE /* ConfigurationViewController.swift in Sources */,
 				A3CFE1D82947A7E800749CD5 /* HomeViewModel.swift in Sources */,
 				A3CFE1DF2947B38F00749CD5 /* GameViewModel.swift in Sources */,
 				A3CFE1DD2947B38F00749CD5 /* GameViewController.swift in Sources */,
@@ -304,6 +323,7 @@
 				A3CFE1E22947B5EA00749CD5 /* ButtonCell.swift in Sources */,
 				A3EF476C29490A6A003B24CE /* UIImage.swift in Sources */,
 				A3CFE1DE2947B38F00749CD5 /* GameView.swift in Sources */,
+				A3EF477C29491F36003B24CE /* ConfigurationViewModel.swift in Sources */,
 				A3CFE1E52948973E00749CD5 /* UserRecord.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
