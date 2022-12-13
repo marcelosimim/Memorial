@@ -35,7 +35,7 @@ final class GameViewModel: GameViewModelProtocol {
     private var didUsePlayBack = false
 
     var numberOfHits = BehaviorRelay(value: 0)
-    var numberOfButtons = 0
+    var numberOfButtons = CellConfiguration.customMaxElements()
     var time = BehaviorRelay(value: 0)
     var selectCell = PublishRelay<Int>()
     var rightCellSelected = PublishRelay<Int>()

@@ -23,7 +23,7 @@ final class ConfigurationView: UIView, ConfigurationViewProtocol {
     lazy var slider: UISlider = {
         let slider = UISlider()
         slider.minimumValue = 1
-        slider.maximumValue = 2.5
+        slider.maximumValue = 2.9
         slider.addTarget(self, action: #selector(changeValue), for: .valueChanged)
         slider.translatesAutoresizingMaskIntoConstraints = false
         return slider
@@ -63,6 +63,9 @@ final class ConfigurationView: UIView, ConfigurationViewProtocol {
     }
 
     @objc private func changeValue() {
+        let step: Float = 0.3
+        let roundedValue = round(slider.value / step) * step
+        slider.value = roundedValue
         multiplier.accept(Double(slider.value))
     }
 }

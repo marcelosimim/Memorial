@@ -11,13 +11,12 @@ import Foundation
 import UIKit
 
 protocol HomeViewDelegate: AnyObject {
-    func didTapButton(_ text: String)
+    func didTapButton()
 }
 
 protocol HomeViewProtocol {
     var delegate: HomeViewDelegate? { get set }
 
-    func getNumberOfButtons() -> String
     func setupRecordLabel(_ record: Int)
 }
 
@@ -43,24 +42,6 @@ final class HomeView: UIView, HomeViewProtocol {
         return label
     }()
 
-    private lazy var infoLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Selecione a quantidade de botões para começar o jogo: "
-        label.font = .systemFont(ofSize: 16, weight: .regular)
-        label.numberOfLines = 0
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-
-    lazy var inputTextField: UITextField = {
-        let textfield = UITextField()
-        textfield.borderStyle = .roundedRect
-        textfield.keyboardType = .numberPad
-        textfield.translatesAutoresizingMaskIntoConstraints = false
-        return textfield
-    }()
-
     private lazy var startButton: UIButton = {
         let button = UIButton()
         button.setTitle("COMEÇAR", for: .normal)
@@ -73,7 +54,7 @@ final class HomeView: UIView, HomeViewProtocol {
     }()
 
     private lazy var contentStack: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [welcomeLabel, recordLabel, infoLabel, inputTextField, startButton])
+        let stack = UIStackView(arrangedSubviews: [welcomeLabel, recordLabel, startButton])
         stack.spacing = 32
         stack.axis = .vertical
         stack.translatesAutoresizingMaskIntoConstraints = false
@@ -100,13 +81,9 @@ final class HomeView: UIView, HomeViewProtocol {
     }
 
     @objc private func didTapButton() {
-        delegate?.didTapButton(getNumberOfButtons())
+        delegate?.didTapButton()
     }
 
-    func getNumberOfButtons() -> String {
-        guard let text = inputTextField.text else { return "" }
-        return text
-    }
 
     func setupRecordLabel(_ record: Int) {
         recordLabel.text = "O record atual é: \(record)"

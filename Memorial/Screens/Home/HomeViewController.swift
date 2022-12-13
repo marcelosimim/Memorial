@@ -18,6 +18,7 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         customView.delegate = self
+        setupNavigationBar()
         viewModelBinds()
         viewModel.setupRecord()
     }
@@ -25,6 +26,11 @@ class HomeViewController: UIViewController {
     override func loadView() {
         super.loadView()
         view = customView as? UIView
+    }
+
+    private func setupNavigationBar() {
+        navigationItem.hidesBackButton = true
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Configurações", style: .plain, target: self, action: #selector(didTapConfiguration))
     }
 
     private func viewModelBinds() {
@@ -35,7 +41,7 @@ class HomeViewController: UIViewController {
 
         viewModel.didFinishValidation.bind { [weak self] number in
             guard let self = self else { return }
-            self.start(number)
+            self.start()
         }.disposed(by: disposeBag)
 
         viewModel.didFinishValidationFailure.bind { [weak self] _ in
@@ -44,9 +50,8 @@ class HomeViewController: UIViewController {
         }.disposed(by: disposeBag)
     }
 
-    private func start(_ number: Int) {
-        let vc = ConfigurationViewController()
-        // let vc = GameViewController(numberOfButtons: number)
+    private func start() {
+        let vc = GameViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
 
@@ -56,10 +61,14 @@ class HomeViewController: UIViewController {
         alert.addAction(action)
         present(alert, animated: true)
     }
+
+    @objc private func didTapConfiguration() {
+        navigationController?.pushViewController(ConfigurationViewController(), animated: true)
+    }
 }
 
 extension HomeViewController: HomeViewDelegate {
-    func didTapButton(_ text: String) {
-        viewModel.verify(text)
+    func didTapButton() {
+        start()
     }
 }

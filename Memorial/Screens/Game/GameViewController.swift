@@ -15,9 +15,8 @@ class GameViewController: UIViewController {
     private lazy var viewModel: GameViewModelProtocol = GameViewModel()
     private let disposeBag = DisposeBag()
 
-    init(numberOfButtons: Int) {
+    init() {
         super.init(nibName: nil, bundle: nil)
-        self.viewModel.numberOfButtons = numberOfButtons
     }
 
     required init?(coder: NSCoder) {

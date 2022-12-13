@@ -18,11 +18,8 @@ class ConfigurationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupCollectionView()
-        customView.multiplier.bind { [weak self] multiplier in
-            guard let self = self else { return }
-            self.customView.collectionView.reloadData()
-            self.viewModel.changeCellConfigurator(collection: self.customView.collectionView.frame.height, multiplier: multiplier)
-        }.disposed(by: disposeBag)
+        setupNavigationBar()
+        viewModelBinds()
     }
 
     override func loadView() {
@@ -33,6 +30,22 @@ class ConfigurationViewController: UIViewController {
     private func setupCollectionView() {
         customView.collectionView.delegate = self
         customView.collectionView.dataSource = self
+    }
+
+    private func setupNavigationBar() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Resetar recorde", style: .plain, target: self, action: #selector(resetRecord))
+    }
+
+    private func viewModelBinds() {
+        customView.multiplier.bind { [weak self] multiplier in
+            guard let self = self else { return }
+            self.customView.collectionView.reloadData()
+            self.viewModel.changeCellConfigurator(collection: self.customView.collectionView.frame, multiplier: multiplier)
+        }.disposed(by: disposeBag)
+    }
+
+    @objc private func resetRecord() {
+        viewModel.resetRecord()
     }
 }
 
