@@ -30,7 +30,9 @@ class HomeViewController: UIViewController {
     }
 
     private func start(_ number: String) {
-       print(number)
+        guard let number = Int(number) else { return }
+        let vc = GameViewController(numberOfButtons: number)
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 

@@ -14,6 +14,10 @@
 		A3CFE1D62947A7E800749CD5 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CFE1D32947A7E800749CD5 /* HomeViewController.swift */; };
 		A3CFE1D72947A7E800749CD5 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CFE1D42947A7E800749CD5 /* HomeView.swift */; };
 		A3CFE1D82947A7E800749CD5 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CFE1D52947A7E800749CD5 /* HomeViewModel.swift */; };
+		A3CFE1DD2947B38F00749CD5 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CFE1DA2947B38F00749CD5 /* GameViewController.swift */; };
+		A3CFE1DE2947B38F00749CD5 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CFE1DB2947B38F00749CD5 /* GameView.swift */; };
+		A3CFE1DF2947B38F00749CD5 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CFE1DC2947B38F00749CD5 /* GameViewModel.swift */; };
+		A3CFE1E22947B5EA00749CD5 /* ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CFE1E12947B5EA00749CD5 /* ButtonCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +30,10 @@
 		A3CFE1D32947A7E800749CD5 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		A3CFE1D42947A7E800749CD5 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		A3CFE1D52947A7E800749CD5 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		A3CFE1DA2947B38F00749CD5 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		A3CFE1DB2947B38F00749CD5 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
+		A3CFE1DC2947B38F00749CD5 /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
+		A3CFE1E12947B5EA00749CD5 /* ButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,6 +67,7 @@
 			isa = PBXGroup;
 			children = (
 				A33D371F294793DB00A77AB1 /* AppDelegate */,
+				A3CFE1E02947B5D300749CD5 /* Components */,
 				A33D37222947940400A77AB1 /* Screens */,
 				A33D37232947940F00A77AB1 /* Resources */,
 				A33D3719294793D500A77AB1 /* Info.plist */,
@@ -78,6 +87,7 @@
 		A33D37222947940400A77AB1 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				A3CFE1D92947B38200749CD5 /* Game */,
 				A33D3726294795DF00A77AB1 /* Home */,
 			);
 			path = Screens;
@@ -100,6 +110,24 @@
 				A3CFE1D52947A7E800749CD5 /* HomeViewModel.swift */,
 			);
 			path = Home;
+			sourceTree = "<group>";
+		};
+		A3CFE1D92947B38200749CD5 /* Game */ = {
+			isa = PBXGroup;
+			children = (
+				A3CFE1DA2947B38F00749CD5 /* GameViewController.swift */,
+				A3CFE1DB2947B38F00749CD5 /* GameView.swift */,
+				A3CFE1DC2947B38F00749CD5 /* GameViewModel.swift */,
+			);
+			path = Game;
+			sourceTree = "<group>";
+		};
+		A3CFE1E02947B5D300749CD5 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				A3CFE1E12947B5EA00749CD5 /* ButtonCell.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -176,7 +204,11 @@
 				A3CFE1D72947A7E800749CD5 /* HomeView.swift in Sources */,
 				A33D370E294793D300A77AB1 /* SceneDelegate.swift in Sources */,
 				A3CFE1D82947A7E800749CD5 /* HomeViewModel.swift in Sources */,
+				A3CFE1DF2947B38F00749CD5 /* GameViewModel.swift in Sources */,
+				A3CFE1DD2947B38F00749CD5 /* GameViewController.swift in Sources */,
 				A3CFE1D62947A7E800749CD5 /* HomeViewController.swift in Sources */,
+				A3CFE1E22947B5EA00749CD5 /* ButtonCell.swift in Sources */,
+				A3CFE1DE2947B38F00749CD5 /* GameView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
