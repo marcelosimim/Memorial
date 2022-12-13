@@ -19,6 +19,7 @@
 		A3CFE1DE2947B38F00749CD5 /* GameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CFE1DB2947B38F00749CD5 /* GameView.swift */; };
 		A3CFE1DF2947B38F00749CD5 /* GameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CFE1DC2947B38F00749CD5 /* GameViewModel.swift */; };
 		A3CFE1E22947B5EA00749CD5 /* ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CFE1E12947B5EA00749CD5 /* ButtonCell.swift */; };
+		A3CFE1E52948973E00749CD5 /* UserRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CFE1E42948973E00749CD5 /* UserRecord.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,6 +38,7 @@
 		A3CFE1DB2947B38F00749CD5 /* GameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameView.swift; sourceTree = "<group>"; };
 		A3CFE1DC2947B38F00749CD5 /* GameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewModel.swift; sourceTree = "<group>"; };
 		A3CFE1E12947B5EA00749CD5 /* ButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCell.swift; sourceTree = "<group>"; };
+		A3CFE1E42948973E00749CD5 /* UserRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRecord.swift; sourceTree = "<group>"; };
 		EC50AB596455CEFBCA8F1B11 /* Pods_Memorial.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Memorial.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -58,7 +60,6 @@
 				372EBFD04DDCFCC2E54691BC /* Pods-Memorial.debug.xcconfig */,
 				63D1084187481917169CE9AF /* Pods-Memorial.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -85,6 +86,7 @@
 			children = (
 				A33D371F294793DB00A77AB1 /* AppDelegate */,
 				A3CFE1E02947B5D300749CD5 /* Components */,
+				A3CFE1E32948972D00749CD5 /* Model */,
 				A33D37222947940400A77AB1 /* Screens */,
 				A33D37232947940F00A77AB1 /* Resources */,
 				A33D3719294793D500A77AB1 /* Info.plist */,
@@ -145,6 +147,14 @@
 				A3CFE1E12947B5EA00749CD5 /* ButtonCell.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		A3CFE1E32948972D00749CD5 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				A3CFE1E42948973E00749CD5 /* UserRecord.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		AA6446D86F5190873A7D3FA3 /* Frameworks */ = {
@@ -278,6 +288,7 @@
 				A3CFE1D62947A7E800749CD5 /* HomeViewController.swift in Sources */,
 				A3CFE1E22947B5EA00749CD5 /* ButtonCell.swift in Sources */,
 				A3CFE1DE2947B38F00749CD5 /* GameView.swift in Sources */,
+				A3CFE1E52948973E00749CD5 /* UserRecord.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

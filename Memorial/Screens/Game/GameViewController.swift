@@ -6,16 +6,18 @@
 //  Created by Marcelo Simim Santos on 12/12/22.
 //
 //
+import RxCocoa
+import RxSwift
 import UIKit
 
 class GameViewController: UIViewController {
     private lazy var customView: GameViewProtocol = GameView()
     private lazy var viewModel: GameViewModelProtocol = GameViewModel()
-    private let numberOfButtons: Int
+    private let disposeBag = DisposeBag()
 
     init(numberOfButtons: Int) {
-        self.numberOfButtons = numberOfButtons
         super.init(nibName: nil, bundle: nil)
+        self.viewModel.numberOfButtons = numberOfButtons
     }
 
     required init?(coder: NSCoder) {
@@ -25,18 +27,8 @@ class GameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.hidesBackButton = true
-        customView.collectionView.delegate = self
-        customView.collectionView.dataSource = self
-        viewModel.numberOfButtons = numberOfButtons
-        viewModel.selectCell = { row in
-            self.highlightCell(row)
-        }
-        viewModel.rightCellSelected = { row in
-            self.rightCell(row)
-        }
-        viewModel.wrongCellSelected = { row in
-            self.wrongCell(row)
-        }
+        setupCollectionView()
+        viewModelBinds()
         DispatchQueue.main.asyncAfter(deadline: .now()+1.0) {
             self.viewModel.startGame()
         }
@@ -47,6 +39,27 @@ class GameViewController: UIViewController {
         view = customView.view
     }
 
+    private func setupCollectionView() {
+        customView.collectionView.delegate = self
+        customView.collectionView.dataSource = self
+    }
+
+    private func viewModelBinds() {
+        viewModel.selectCell.bind { [weak self] row in
+            guard let self = self else { return }
+            self.highlightCell(row)
+        }.disposed(by: disposeBag)
+
+        viewModel.rightCellSelected.bind { [weak self] row in
+            guard let self = self else { return }
+            self.rightCell(row)
+        }.disposed(by: disposeBag)
+
+        viewModel.wrongCellSelected.bind { [weak self] row in
+            guard let self = self else { return }
+            self.wrongCell(row)
+        }.disposed(by: disposeBag)
+    }
 
     private func highlightCell(_ row: Int) {
         guard let cell = customView.collectionView.cellForItem(at: IndexPath(row: row, section: 0)) as? ButtonCell else { return }
@@ -66,7 +79,7 @@ class GameViewController: UIViewController {
 
 extension GameViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        numberOfButtons
+        viewModel.numberOfButtons
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
