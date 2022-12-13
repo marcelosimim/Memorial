@@ -23,7 +23,7 @@ protocol GameViewModelProtocol {
 
 final class GameViewModel: GameViewModelProtocol {
     private let userRecord = UserRecord()
-    private lazy var timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(showSequence), userInfo: nil, repeats: true)
+    private var timer: Timer?
     private var buttonSequence: [Int] = []
     private var userSequence: [Int] = []
     private var suportSequence: [Int] = []
@@ -35,14 +35,14 @@ final class GameViewModel: GameViewModelProtocol {
     var wrongCellSelected = PublishRelay<Int>()
 
     func startGame() {
-        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(showSequence), userInfo: nil, repeats: true)
+        setTimer()
         buttonSequence = []
         chooseCell()
     }
 
     func continueGame() {
         numberOfHits += 1
-        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(showSequence), userInfo: nil, repeats: true)
+        setTimer()
         chooseCell()
     }
 
@@ -60,6 +60,7 @@ final class GameViewModel: GameViewModelProtocol {
     }
 
     private func chooseCell() {
+        guard let timer = timer else { return }
         var randomIndex = Int.random(in: 0...numberOfButtons-1)
         if buttonSequence.count == numberOfButtons { return }
 
@@ -75,6 +76,7 @@ final class GameViewModel: GameViewModelProtocol {
     }
 
     @objc private func showSequence() {
+        guard let timer = timer else { return }
         if suportSequence.count > 0 {
             let nextButton = suportSequence.remove(at: 0)
             selectCell.accept(nextButton)
@@ -85,5 +87,9 @@ final class GameViewModel: GameViewModelProtocol {
         if numberOfHits > userRecord.currentRecord {
             userRecord.setRecord(numberOfHits)
         }
+    }
+
+    private func setTimer() {
+        timer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(showSequence), userInfo: nil, repeats: true)
     }
 }
