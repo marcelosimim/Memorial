@@ -21,6 +21,7 @@
 		A3CFE1E22947B5EA00749CD5 /* ButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CFE1E12947B5EA00749CD5 /* ButtonCell.swift */; };
 		A3CFE1E52948973E00749CD5 /* UserRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CFE1E42948973E00749CD5 /* UserRecord.swift */; };
 		A3CFE1E72948AB6400749CD5 /* CellConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3CFE1E62948AB6400749CD5 /* CellConfiguration.swift */; };
+		A3EF476C29490A6A003B24CE /* UIImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3EF476B29490A6A003B24CE /* UIImage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -41,6 +42,7 @@
 		A3CFE1E12947B5EA00749CD5 /* ButtonCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCell.swift; sourceTree = "<group>"; };
 		A3CFE1E42948973E00749CD5 /* UserRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRecord.swift; sourceTree = "<group>"; };
 		A3CFE1E62948AB6400749CD5 /* CellConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellConfiguration.swift; sourceTree = "<group>"; };
+		A3EF476B29490A6A003B24CE /* UIImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImage.swift; sourceTree = "<group>"; };
 		EC50AB596455CEFBCA8F1B11 /* Pods_Memorial.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Memorial.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -88,6 +90,7 @@
 			children = (
 				A33D371F294793DB00A77AB1 /* AppDelegate */,
 				A3CFE1E02947B5D300749CD5 /* Components */,
+				A3EF476829490804003B24CE /* Extensions */,
 				A3CFE1E32948972D00749CD5 /* Model */,
 				A33D37222947940400A77AB1 /* Screens */,
 				A33D37232947940F00A77AB1 /* Resources */,
@@ -158,6 +161,14 @@
 				A3CFE1E62948AB6400749CD5 /* CellConfiguration.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		A3EF476829490804003B24CE /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				A3EF476B29490A6A003B24CE /* UIImage.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		AA6446D86F5190873A7D3FA3 /* Frameworks */ = {
@@ -291,6 +302,7 @@
 				A3CFE1DD2947B38F00749CD5 /* GameViewController.swift in Sources */,
 				A3CFE1D62947A7E800749CD5 /* HomeViewController.swift in Sources */,
 				A3CFE1E22947B5EA00749CD5 /* ButtonCell.swift in Sources */,
+				A3EF476C29490A6A003B24CE /* UIImage.swift in Sources */,
 				A3CFE1DE2947B38F00749CD5 /* GameView.swift in Sources */,
 				A3CFE1E52948973E00749CD5 /* UserRecord.swift in Sources */,
 			);

@@ -28,6 +28,7 @@ class GameViewController: UIViewController {
         super.viewDidLoad()
         setupNavigationBar()
         setupCollectionView()
+        setupNotificationCenter()
         viewModelBinds()
         startGame()
     }
@@ -45,6 +46,12 @@ class GameViewController: UIViewController {
     private func setupCollectionView() {
         customView.collectionView.delegate = self
         customView.collectionView.dataSource = self
+    }
+
+    private func setupNotificationCenter() {
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(appMovedToBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        notificationCenter.addObserver(self, selector: #selector(appCameToForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
 
     private func viewModelBinds() {
@@ -66,8 +73,9 @@ class GameViewController: UIViewController {
     }
 
     private func startGame() {
-        DispatchQueue.main.asyncAfter(deadline: .now()+1.0) {
-            self.viewModel.startGame()
+        DispatchQueue.main.asyncAfter(deadline: .now()+1.0) { [weak self] in
+            guard let self = self else { return }
+            self.viewModel.start()
         }
     }
 
@@ -100,9 +108,22 @@ class GameViewController: UIViewController {
     }
 
     @objc private func optionMenu() {
+        viewModel.pause()
+        customView.pause()
         let actionSheet = UIAlertController(title: "Opções", message: "", preferredStyle: .actionSheet)
+        actionSheet.addAction(UIAlertAction(title: "Continuar", style: .default, handler: { [weak self] _ in
+            guard let self = self else { return }
+            self.customView.resume()
+            self.viewModel.resume()
+        }))
+        actionSheet.addAction(UIAlertAction(title: "Repetir", style: .default, handler: { [weak self] _ in
+            guard let self = self else { return }
+            self.customView.resume()
+            self.viewModel.playBack()
+        }))
         actionSheet.addAction(UIAlertAction(title: "Reiniciar", style: .default, handler: { [weak self] _ in
             guard let self = self else { return }
+            self.customView.resume()
             self.startGame()
         }))
         actionSheet.addAction(UIAlertAction(title: "Sair", style: .default, handler: { [weak self] _ in
@@ -112,6 +133,8 @@ class GameViewController: UIViewController {
         present(actionSheet, animated: true)
     }
 }
+
+// MARK: - Collection View
 
 extension GameViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -134,5 +157,16 @@ extension GameViewController: UICollectionViewDelegate, UICollectionViewDataSour
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         viewModel.checkMove(indexPath.row)
+    }
+}
+
+// MARK: - App background and foreground
+extension GameViewController {
+    @objc func appMovedToBackground() {
+        viewModel.pause()
+    }
+
+    @objc func appCameToForeground() {
+        self.optionMenu()
     }
 }

@@ -12,6 +12,9 @@ import UIKit
 
 protocol GameViewProtocol {
     var collectionView: UICollectionView { get set }
+
+    func resume()
+    func pause()
 }
 
 final class GameView: UIView, GameViewProtocol {
@@ -22,6 +25,16 @@ final class GameView: UIView, GameViewProtocol {
         return collectionView
     }()
 
+    private lazy var pauseImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = .pause
+        imageView.contentMode = .scaleAspectFill
+        imageView.tintColor = .systemGray
+        imageView.isHidden = true
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        return imageView
+    }()
+
     override func layoutSubviews() {
         super.layoutSubviews()
         backgroundColor = .white
@@ -30,6 +43,7 @@ final class GameView: UIView, GameViewProtocol {
 
     private func addViews() {
         addSubview(collectionView)
+        addSubview(pauseImage)
         setupConstraints()
     }
 
@@ -38,7 +52,19 @@ final class GameView: UIView, GameViewProtocol {
             collectionView.topAnchor.constraint(equalTo: topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
-            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor)
+            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
+
+            pauseImage.centerXAnchor.constraint(equalTo: centerXAnchor),
+            pauseImage.centerYAnchor.constraint(equalTo: centerYAnchor),
+            pauseImage.heightAnchor.constraint(equalToConstant: 200),
         ])
+    }
+
+    func resume() {
+        pauseImage.isHidden = true
+    }
+
+    func pause() {
+        pauseImage.isHidden = false
     }
 }

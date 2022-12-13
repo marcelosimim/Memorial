@@ -16,8 +16,11 @@ protocol GameViewModelProtocol {
     var rightCellSelected: PublishRelay<Int> { get }
     var wrongCellSelected: PublishRelay<Int> { get }
 
-    func startGame()
-    func continueGame()
+    func start()
+    func next()
+    func resume()
+    func playBack()
+    func pause()
     func checkMove(_ button: Int)
 }
 
@@ -27,6 +30,7 @@ final class GameViewModel: GameViewModelProtocol {
     private var buttonSequence: [Int] = []
     private var userSequence: [Int] = []
     private var suportSequence: [Int] = []
+    private var didUsePlayBack = false
 
     var numberOfHits = 0
     var numberOfButtons = 0
@@ -34,16 +38,36 @@ final class GameViewModel: GameViewModelProtocol {
     var rightCellSelected = PublishRelay<Int>()
     var wrongCellSelected = PublishRelay<Int>()
 
-    func startGame() {
+    func start() {
+        didUsePlayBack = false
         setTimer()
         buttonSequence = []
         chooseCell()
     }
 
-    func continueGame() {
+    func next() {
         numberOfHits += 1
         setTimer()
         chooseCell()
+    }
+
+    func pause() {
+        guard let timer = timer else { return }
+        timer.invalidate()
+    }
+
+    func resume() {
+        setTimer()
+        showSequence()
+    }
+
+    func playBack() {
+        if !didUsePlayBack {
+            suportSequence = buttonSequence
+            setTimer()
+            showSequence()
+        }
+        didUsePlayBack = true
     }
 
     func checkMove(_ button: Int) {
@@ -51,7 +75,10 @@ final class GameViewModel: GameViewModelProtocol {
             rightCellSelected.accept(button)
             userSequence.remove(at: 0)
             if userSequence.count == 0 {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { self.continueGame() }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
+                    guard let self = self else { return }
+                    self.next()
+                }
             }
         } else {
             wrongCellSelected.accept(button)
