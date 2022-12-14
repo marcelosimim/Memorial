@@ -12,7 +12,7 @@ import RxRelay
 protocol GameViewModelProtocol {
     var numberOfButtons: Int { get set }
     var numberOfHits: BehaviorRelay<Int> { get }
-    var gameDidEnd: BehaviorRelay<Bool> { get }
+    var record: BehaviorRelay<Int> { get }
     var time: BehaviorRelay<Int> { get }
     var selectCell: PublishRelay<Int> { get }
     var rightCellSelected: PublishRelay<Int> { get }
@@ -24,10 +24,11 @@ protocol GameViewModelProtocol {
     func playBack()
     func pause()
     func checkMove(_ button: Int)
+    func recoverRecord()
 }
 
 final class GameViewModel: GameViewModelProtocol {
-    private let userRecord = UserRecord()
+    private let gameDataManager = GameDataManager.shared
     private var gameTimer: Timer?
     private var roundTimer: Timer?
     private var buttonSequence: [Int] = []
@@ -37,14 +38,15 @@ final class GameViewModel: GameViewModelProtocol {
 
     var numberOfHits = BehaviorRelay(value: 0)
     var numberOfButtons = CellConfiguration.customMaxElements()
-    var gameDidEnd = BehaviorRelay(value: false)
     var time = BehaviorRelay(value: 0)
+    var record = BehaviorRelay(value: 0)
     var selectCell = PublishRelay<Int>()
     var rightCellSelected = PublishRelay<Int>()
     var wrongCellSelected = PublishRelay<Int>()
 
     func start() {
         didUsePlayBack = false
+        recoverRecord()
         setRoundTimer()
         setGameTimer()
         buttonSequence = []
@@ -53,6 +55,7 @@ final class GameViewModel: GameViewModelProtocol {
 
     func next() {
         numberOfHits.accept(numberOfHits.value+1)
+        checkRecord()
         setRoundTimer()
         chooseCell()
     }
@@ -95,25 +98,17 @@ final class GameViewModel: GameViewModelProtocol {
         }
     }
 
+    func recoverRecord() {
+        record.accept(Int(gameDataManager.fetchRecord()))
+    }
+
     private func chooseCell() {
         guard let roundTimer = roundTimer else { return }
-        var randomIndex = Int.random(in: 0...numberOfButtons-1)
-        if buttonSequence.count == numberOfButtons {
-            endGame()
-
-            return
-        }
-
-        while numberAlreadyChosen(randomIndex) { randomIndex = Int.random(in: 0...numberOfButtons-1) }
-        print(randomIndex, "->", randomIndex+1)
+        let randomIndex = Int.random(in: 0...numberOfButtons-1)
         buttonSequence.append(randomIndex)
         userSequence = buttonSequence
         suportSequence = buttonSequence
         roundTimer.fire()
-    }
-
-    private func numberAlreadyChosen(_ number: Int) -> Bool {
-        buttonSequence.contains(number)
     }
 
     @objc private func showSequence() {
@@ -128,15 +123,9 @@ final class GameViewModel: GameViewModelProtocol {
         time.accept(time.value+1)
     }
 
-    private func endGame() {
-        gameDidEnd.accept(true)
-        gameTimer?.invalidate()
-        saveGame()
-    }
-
     private func saveGame() {
         let round = RoundModel(elements: CellConfiguration.customMaxElements(), level: numberOfHits.value, time: time.value)
-        GameDataManager.shared.createRound(round)
+        gameDataManager.createRound(round)
     }
 
     private func setRoundTimer() {
@@ -148,4 +137,9 @@ final class GameViewModel: GameViewModelProtocol {
         gameTimer?.fire()
     }
 
+    private func checkRecord() {
+        if numberOfHits.value > record.value {
+            record.accept(numberOfHits.value)
+        }
+    }
 }

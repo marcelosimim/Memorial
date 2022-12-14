@@ -67,26 +67,24 @@ class GameViewController: UIViewController {
         viewModel.wrongCellSelected.bind { [weak self] row in
             guard let self = self else { return }
             self.wrongCell(row)
-            self.gameDidEnd(message: "Seu máximo de botões foi: \(self.viewModel.numberOfHits.value)")
+            self.gameDidEnd()
         }.disposed(by: disposeBag)
 
         viewModel.numberOfHits.bind { [weak self] numberOfHits in
-            self?.customView.setupLevel(numberOfHits)
-        }.disposed(by: disposeBag)
-
-        viewModel.gameDidEnd.bind { [weak self] ended in
-            guard let self = self else { return }
-            if ended {
-                self.gameDidEnd(message: "Parabéns pela vitória!!!")
-            }
+            self?.customView.setupLevel(numberOfHits+1)
         }.disposed(by: disposeBag)
 
         viewModel.time.bind { [weak self] time in
             self?.customView.setupTime(time)
         }.disposed(by: disposeBag)
+
+        viewModel.record.bind { [weak self] record in
+            self?.customView.setupRecord(record)
+        }.disposed(by: disposeBag)
     }
 
     private func startGame() {
+        viewModel.recoverRecord()
         DispatchQueue.main.asyncAfter(deadline: .now()+1.0) { [weak self] in
             guard let self = self else { return }
             self.viewModel.start()
@@ -108,8 +106,9 @@ class GameViewController: UIViewController {
         cell.wrongCell()
     }
 
-    private func gameDidEnd(message: String) {
-        let alert = UIAlertController(title: "O jogo acabou!", message: message, preferredStyle: .alert)
+    private func gameDidEnd() {
+        viewModel.pause()
+        let alert = UIAlertController(title: "O jogo acabou!", message: "Seu máximo de botões foi: \(self.viewModel.numberOfHits.value)", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Reiniciar", style: .default, handler: { [weak self] _ in
             guard let self = self else { return }
             self.startGame()

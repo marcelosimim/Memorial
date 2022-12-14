@@ -17,6 +17,7 @@ protocol GameViewProtocol {
     func pause()
     func setupTime(_ time: Int)
     func setupLevel(_ level: Int)
+    func setupRecord(_ record: Int)
 }
 
 final class GameView: UIView, GameViewProtocol {
@@ -40,7 +41,6 @@ final class GameView: UIView, GameViewProtocol {
 
     private lazy var recordLabel: UILabel = {
         let label = UILabel()
-        label.text = "Record atual: \(UserRecord().currentRecord)"
         label.font = .systemFont(ofSize: 16, weight: .bold)
         label.numberOfLines = 0
         label.textAlignment = .center
@@ -123,5 +123,9 @@ final class GameView: UIView, GameViewProtocol {
 
     func setupLevel(_ level: Int) {
         levelLabel.text = "Level atual: \(level)"
+    }
+
+    func setupRecord(_ record: Int) {
+        recordLabel.text = "Record atual: \(record)"
     }
 }

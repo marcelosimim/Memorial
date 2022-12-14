@@ -39,7 +39,7 @@ extension GameDataManager {
             let round = Round(context: viewContext)
             round.level = Int16(model.level)
             round.elements = Int16(model.elements)
-            round.time = Int32(model.time)
+            round.time = model.formattedTime()
         } else {
             update(model)
         }
@@ -50,6 +50,15 @@ extension GameDataManager {
     func fetchRounds() -> [Round] {
         let request: NSFetchRequest<Round> = Round.fetchRequest()
         return (try? viewContext.fetch(request)) ?? []
+    }
+
+    func fetchRecord() -> Int16 {
+        let currentElements = CellConfiguration.customMaxElements()
+        let rounds = fetchRounds()
+        for round in rounds {
+            if round.elements == currentElements { return round.level }
+        }
+        return 0
     }
 
     func deleteRecords() {
@@ -74,9 +83,9 @@ extension GameDataManager {
             if round.elements == model.elements {
                 if isAHighLevel(currentLevel: round.level, lastPlayed: model.level) {
                     round.level = Int16(model.level)
-                    round.time = Int32(model.time)
-                } else if isTheSameLevel(currentLevel: round.level, lastPlayed: model.level) && isALowerTime(currentTime: round.time, lastPlayed: model.time) {
-                    round.time = Int32(model.time)
+                    round.time = model.formattedTime()
+                } else if isTheSameLevel(currentLevel: round.level, lastPlayed: model.level) && isALowerTime(currentTime: round.time, lastPlayed: model.formattedTime()) {
+                    round.time = model.formattedTime()
                 }
             }
         }
@@ -98,7 +107,12 @@ extension GameDataManager {
         lastPlayed == currentLevel
     }
 
-    private func isALowerTime(currentTime: Int32, lastPlayed: Int) -> Bool {
-        lastPlayed < currentTime
+    private func isALowerTime(currentTime: String, lastPlayed: String) -> Bool {
+        for i in 0...currentTime.count {
+            let currentChar = Int(currentTime[i]) ?? 0
+            let lastPlayedChar =  Int(lastPlayed[i]) ?? 0
+            if currentChar < lastPlayedChar { return true }
+        }
+        return false
     }
 }

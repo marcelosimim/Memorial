@@ -18,8 +18,8 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
-        customView.collectionView.delegate = self
-        customView.collectionView.dataSource = self
+        customView.tableView.delegate = self
+        customView.tableView.dataSource = self
         viewModelBinds()
         viewModel.fetchRounds()
     }
@@ -43,7 +43,7 @@ class HomeViewController: UIViewController {
     private func viewModelBinds() {
         viewModel.rounds.bind { [weak self] _ in
             guard let self = self else { return }
-            self.customView.collectionView.reloadData()
+            self.customView.tableView.reloadData()
         }.disposed(by: disposeBag)
     }
 

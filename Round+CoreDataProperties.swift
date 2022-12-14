@@ -18,7 +18,7 @@ extension Round {
 
     @NSManaged public var elements: Int16
     @NSManaged public var level: Int16
-    @NSManaged public var time: Int32
+    @NSManaged public var time: String
 
 }
 

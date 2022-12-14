@@ -11,7 +11,7 @@ import Foundation
 import UIKit
 
 protocol HomeViewProtocol {
-    var collectionView: UITableView { get set }
+    var tableView: UITableView { get set }
 }
 
 final class HomeView: UIView, HomeViewProtocol {
@@ -25,7 +25,7 @@ final class HomeView: UIView, HomeViewProtocol {
         return label
     }()
 
-    lazy var collectionView: UITableView = {
+    lazy var tableView: UITableView = {
         let collectionView = UITableView()
         collectionView.register(TableRow.self, forCellReuseIdentifier: TableRow.identifier)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
@@ -40,7 +40,7 @@ final class HomeView: UIView, HomeViewProtocol {
 
     private func addViews() {
         addSubview(welcomeLabel)
-        addSubview(collectionView)
+        addSubview(tableView)
         setupConstraints()
     }
 
@@ -50,10 +50,10 @@ final class HomeView: UIView, HomeViewProtocol {
             welcomeLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 64),
             welcomeLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
 
-            collectionView.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: 64),
-            collectionView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 32),
-            collectionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32),
-            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
+            tableView.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: 64),
+            tableView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 32),
+            tableView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32),
+            tableView.bottomAnchor.constraint(equalTo: bottomAnchor),
         ])
     }
 }
