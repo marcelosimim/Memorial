@@ -10,19 +10,11 @@
 import Foundation
 import UIKit
 
-protocol HomeViewDelegate: AnyObject {
-    func didTapButton()
-}
-
 protocol HomeViewProtocol {
-    var delegate: HomeViewDelegate? { get set }
-
-    func setupRecordLabel(_ record: Int)
+    var collectionView: UICollectionView { get set }
 }
 
 final class HomeView: UIView, HomeViewProtocol {
-    var delegate: HomeViewDelegate?
-
     private lazy var welcomeLabel: UILabel = {
         let label = UILabel()
         label.text = "BEM VINDO(A)!"
@@ -33,32 +25,20 @@ final class HomeView: UIView, HomeViewProtocol {
         return label
     }()
 
-    private lazy var recordLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 24, weight: .regular)
-        label.numberOfLines = 0
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+    private lazy var collectionHeader: TableHeader = {
+        let tableHeader = TableHeader()
+        tableHeader.translatesAutoresizingMaskIntoConstraints = false
+        return tableHeader
     }()
 
-    private lazy var startButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("COMEÇAR", for: .normal)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .systemBlue
-        button.layer.cornerRadius = 12
-        button.addTarget(self, action: #selector(didTapButton), for: .touchUpInside)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-
-    private lazy var contentStack: UIStackView = {
-        let stack = UIStackView(arrangedSubviews: [welcomeLabel, recordLabel, startButton])
-        stack.spacing = 32
-        stack.axis = .vertical
-        stack.translatesAutoresizingMaskIntoConstraints = false
-        return stack
+    lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.minimumLineSpacing = 0
+        layout.minimumInteritemSpacing = 0
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.register(TableCell.self, forCellWithReuseIdentifier: TableCell.identifier)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        return collectionView
     }()
 
     override func layoutSubviews() {
@@ -68,24 +48,27 @@ final class HomeView: UIView, HomeViewProtocol {
     }
 
     private func addViews() {
-        addSubview(contentStack)
+        addSubview(welcomeLabel)
+        addSubview(collectionHeader)
+        addSubview(collectionView)
         setupConstraints()
     }
 
     private func setupConstraints() {
         NSLayoutConstraint.activate([
-            contentStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 64),
-            contentStack.centerXAnchor.constraint(equalTo: centerXAnchor),
-            contentStack.centerYAnchor.constraint(equalTo: centerYAnchor)
+            welcomeLabel.topAnchor.constraint(equalTo: topAnchor, constant: 150),
+            welcomeLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 64),
+            welcomeLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+
+            collectionHeader.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: 64),
+            collectionHeader.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 32),
+            collectionHeader.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32),
+            collectionHeader.heightAnchor.constraint(equalToConstant: 50),
+
+            collectionView.topAnchor.constraint(equalTo: collectionHeader.bottomAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 32),
+            collectionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32),
+            collectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
         ])
-    }
-
-    @objc private func didTapButton() {
-        delegate?.didTapButton()
-    }
-
-
-    func setupRecordLabel(_ record: Int) {
-        recordLabel.text = "O record atual é: \(record)"
     }
 }
