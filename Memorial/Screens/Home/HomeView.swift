@@ -11,7 +11,7 @@ import Foundation
 import UIKit
 
 protocol HomeViewProtocol {
-    var collectionView: UICollectionView { get set }
+    var collectionView: UITableView { get set }
 }
 
 final class HomeView: UIView, HomeViewProtocol {
@@ -25,18 +25,9 @@ final class HomeView: UIView, HomeViewProtocol {
         return label
     }()
 
-    private lazy var collectionHeader: TableHeader = {
-        let tableHeader = TableHeader()
-        tableHeader.translatesAutoresizingMaskIntoConstraints = false
-        return tableHeader
-    }()
-
-    lazy var collectionView: UICollectionView = {
-        let layout = UICollectionViewFlowLayout()
-        layout.minimumLineSpacing = 0
-        layout.minimumInteritemSpacing = 0
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
-        collectionView.register(TableCell.self, forCellWithReuseIdentifier: TableCell.identifier)
+    lazy var collectionView: UITableView = {
+        let collectionView = UITableView()
+        collectionView.register(TableRow.self, forCellReuseIdentifier: TableRow.identifier)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         return collectionView
     }()
@@ -49,7 +40,6 @@ final class HomeView: UIView, HomeViewProtocol {
 
     private func addViews() {
         addSubview(welcomeLabel)
-        addSubview(collectionHeader)
         addSubview(collectionView)
         setupConstraints()
     }
@@ -60,12 +50,7 @@ final class HomeView: UIView, HomeViewProtocol {
             welcomeLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 64),
             welcomeLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
 
-            collectionHeader.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: 64),
-            collectionHeader.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 32),
-            collectionHeader.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32),
-            collectionHeader.heightAnchor.constraint(equalToConstant: 50),
-
-            collectionView.topAnchor.constraint(equalTo: collectionHeader.bottomAnchor),
+            collectionView.topAnchor.constraint(equalTo: welcomeLabel.bottomAnchor, constant: 64),
             collectionView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 32),
             collectionView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32),
             collectionView.bottomAnchor.constraint(equalTo: bottomAnchor),

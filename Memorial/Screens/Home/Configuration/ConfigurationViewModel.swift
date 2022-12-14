@@ -30,6 +30,6 @@ final class ConfigurationViewModel: ConfigurationViewModelProtocol {
     }
 
     func resetRecord() {
-        UserRecord().setRecord(0)
+        GameDataManager.shared.deleteRecords()
     }
 }

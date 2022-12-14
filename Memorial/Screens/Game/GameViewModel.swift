@@ -12,6 +12,7 @@ import RxRelay
 protocol GameViewModelProtocol {
     var numberOfButtons: Int { get set }
     var numberOfHits: BehaviorRelay<Int> { get }
+    var gameDidEnd: BehaviorRelay<Bool> { get }
     var time: BehaviorRelay<Int> { get }
     var selectCell: PublishRelay<Int> { get }
     var rightCellSelected: PublishRelay<Int> { get }
@@ -36,6 +37,7 @@ final class GameViewModel: GameViewModelProtocol {
 
     var numberOfHits = BehaviorRelay(value: 0)
     var numberOfButtons = CellConfiguration.customMaxElements()
+    var gameDidEnd = BehaviorRelay(value: false)
     var time = BehaviorRelay(value: 0)
     var selectCell = PublishRelay<Int>()
     var rightCellSelected = PublishRelay<Int>()
@@ -89,16 +91,21 @@ final class GameViewModel: GameViewModelProtocol {
             }
         } else {
             wrongCellSelected.accept(button)
-            saveRecord()
+            saveGame()
         }
     }
 
     private func chooseCell() {
         guard let roundTimer = roundTimer else { return }
         var randomIndex = Int.random(in: 0...numberOfButtons-1)
-        if buttonSequence.count == numberOfButtons { return }
+        if buttonSequence.count == numberOfButtons {
+            endGame()
 
-        while numberAlreadyChosen(randomIndex) { randomIndex = Int.random(in: 0...numberOfButtons) }
+            return
+        }
+
+        while numberAlreadyChosen(randomIndex) { randomIndex = Int.random(in: 0...numberOfButtons-1) }
+        print(randomIndex, "->", randomIndex+1)
         buttonSequence.append(randomIndex)
         userSequence = buttonSequence
         suportSequence = buttonSequence
@@ -121,10 +128,15 @@ final class GameViewModel: GameViewModelProtocol {
         time.accept(time.value+1)
     }
 
-    private func saveRecord() {
-        if numberOfHits.value > userRecord.currentRecord {
-            userRecord.setRecord(numberOfHits.value)
-        }
+    private func endGame() {
+        gameDidEnd.accept(true)
+        gameTimer?.invalidate()
+        saveGame()
+    }
+
+    private func saveGame() {
+        let round = RoundModel(elements: CellConfiguration.customMaxElements(), level: numberOfHits.value, time: time.value)
+        GameDataManager.shared.createRound(round)
     }
 
     private func setRoundTimer() {

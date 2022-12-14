@@ -6,34 +6,23 @@
 //  Created by Marcelo Simim Santos on 12/12/22.
 //
 //
+import CoreData
 import Foundation
 import RxRelay
 
 protocol HomeViewModelProtocol {
-    var didFinishValidation: PublishRelay<Int> { get }
-    var didFinishValidationFailure: PublishRelay<Void> { get }
-    var record: PublishRelay<Int> { get }
-
-    func verify(_ text: String)
-    func setupRecord()
+    // var rounds: [NSManagedObject] { get }
+    var rounds: BehaviorRelay<[Round]> { get }
+    func fetchRounds()
 }
 
 final class HomeViewModel: HomeViewModelProtocol {
-    private let userRecord = UserRecord()
-    var didFinishValidation = PublishRelay<Int>()
-    var didFinishValidationFailure = PublishRelay<Void>()
-    var record = PublishRelay<Int>()
+    var rounds: BehaviorRelay<[Round]> = BehaviorRelay(value: [])
 
-    func verify(_ text: String) {
-        guard let number = Int(text) else { return }
-        if number <= (CellConfiguration.maxElements ?? CellConfiguration.defaultMaxElements()) {
-            didFinishValidation.accept(number)
-        } else {
-            didFinishValidationFailure.accept(())
-        }
-    }
+    // var rounds: [NSManagedObject] = []
 
-    func setupRecord() {
-        record.accept(userRecord.currentRecord)
+    func fetchRounds() {
+        rounds.accept(GameDataManager.shared.fetchRounds())
+        // rounds = GameDataManager.shared.fetchRounds()
     }
 }

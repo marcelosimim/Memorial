@@ -18,10 +18,15 @@ class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupNavigationBar()
-        viewModelBinds()
-        viewModel.setupRecord()
         customView.collectionView.delegate = self
         customView.collectionView.dataSource = self
+        viewModelBinds()
+        viewModel.fetchRounds()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.fetchRounds()
     }
 
     override func loadView() {
@@ -36,8 +41,9 @@ class HomeViewController: UIViewController {
     }
 
     private func viewModelBinds() {
-        viewModel.record.bind { [weak self] record in
+        viewModel.rounds.bind { [weak self] _ in
             guard let self = self else { return }
+            self.customView.collectionView.reloadData()
         }.disposed(by: disposeBag)
     }
 
@@ -54,22 +60,20 @@ class HomeViewController: UIViewController {
 
 // MARK: - Collection View
 
-extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        5
+extension HomeViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        viewModel.rounds.value.count
     }
 
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        3
-    }
-
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TableCell.identifier, for: indexPath) as? TableCell else { fatalError() }
-        cell.configure("teste")
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: TableRow.identifier, for: indexPath) as? TableRow else { fatalError() }
+        cell.configure(viewModel.rounds.value[indexPath.row])
         return cell
     }
 
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        CGSize(width: collectionView.frame.width/3, height: 50)
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header = TableRow()
+        header.configure(["Elementos", "Level", "Tempo"])
+        return header
     }
 }

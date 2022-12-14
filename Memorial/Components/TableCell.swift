@@ -49,7 +49,8 @@ class TableCell: UICollectionViewCell {
         titleLabel.text = text
     }
 
-    func boldTitle() {
+    func configureAsTitle(_ text: String) {
+        titleLabel.text = text
         titleLabel.font = .systemFont(ofSize: 16, weight: .bold)
     }
 }

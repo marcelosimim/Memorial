@@ -7,11 +7,11 @@
 
 import UIKit
 
-class TableHeader: UIView {
+class TableRow: UITableViewCell {
+    static let identifier = "\(TableRow.self)"
     private lazy var elementTableCell: TableCell = {
         let tableCell = TableCell()
         tableCell.configure("Elementos")
-        tableCell.boldTitle()
         tableCell.translatesAutoresizingMaskIntoConstraints = false
         return tableCell
     }()
@@ -19,7 +19,6 @@ class TableHeader: UIView {
     private lazy var levelTableCell: TableCell = {
         let tableCell = TableCell()
         tableCell.configure("Level")
-        tableCell.boldTitle()
         tableCell.translatesAutoresizingMaskIntoConstraints = false
         return tableCell
     }()
@@ -27,7 +26,6 @@ class TableHeader: UIView {
     private lazy var timeTableCell: TableCell = {
         let tableCell = TableCell()
         tableCell.configure("Tempo")
-        tableCell.boldTitle()
         tableCell.translatesAutoresizingMaskIntoConstraints = false
         return tableCell
     }()
@@ -59,4 +57,17 @@ class TableHeader: UIView {
         ])
     }
 
+    func configure(_ model: Round) {
+        elementTableCell.configure("\(model.elements)")
+        levelTableCell.configure("\(model.level)")
+        timeTableCell.configure("\(model.time)")
+    }
+
+    func configure(_ titles: [String]) {
+        if titles.count == 3 {
+            elementTableCell.configureAsTitle(titles[0])
+            levelTableCell.configureAsTitle(titles[1])
+            timeTableCell.configureAsTitle(titles[2])
+        }
+    }
 }

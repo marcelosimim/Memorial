@@ -67,11 +67,18 @@ class GameViewController: UIViewController {
         viewModel.wrongCellSelected.bind { [weak self] row in
             guard let self = self else { return }
             self.wrongCell(row)
-            self.showError()
+            self.gameDidEnd(message: "Seu máximo de botões foi: \(self.viewModel.numberOfHits.value)")
         }.disposed(by: disposeBag)
 
         viewModel.numberOfHits.bind { [weak self] numberOfHits in
             self?.customView.setupLevel(numberOfHits)
+        }.disposed(by: disposeBag)
+
+        viewModel.gameDidEnd.bind { [weak self] ended in
+            guard let self = self else { return }
+            if ended {
+                self.gameDidEnd(message: "Parabéns pela vitória!!!")
+            }
         }.disposed(by: disposeBag)
 
         viewModel.time.bind { [weak self] time in
@@ -101,8 +108,8 @@ class GameViewController: UIViewController {
         cell.wrongCell()
     }
 
-    private func showError() {
-        let alert = UIAlertController(title: "Botão errado!", message: "Seu máximo de botões foi: \(viewModel.numberOfHits)", preferredStyle: .alert)
+    private func gameDidEnd(message: String) {
+        let alert = UIAlertController(title: "O jogo acabou!", message: message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "Reiniciar", style: .default, handler: { [weak self] _ in
             guard let self = self else { return }
             self.startGame()
