@@ -34,7 +34,6 @@ final class HomeViewModel: HomeViewModelProtocol {
     }
 
     func setupRecord() {
-        print(UIScreen.main.bounds.height)
         record.accept(userRecord.currentRecord)
     }
 }

@@ -15,16 +15,18 @@ protocol ConfigurationViewModelProtocol {
 
 final class ConfigurationViewModel: ConfigurationViewModelProtocol {
     func changeCellConfigurator(collection: CGRect, multiplier: Double) {
-        let collectionHeight = collection.height - 20
-        let cellHeight = 10+CellConfiguration.customSize()
-        let maxRows = Int(floor(collectionHeight/cellHeight))
+        if !collection.height.isZero && !collection.width.isZero {
+            let collectionHeight = collection.height - 20
+            let cellHeight = 10+CellConfiguration.customSize()
+            let maxRows = Int(floor(collectionHeight/cellHeight))
 
-        let collectionWidht = collection.width
-        let cellWidht = 10+CellConfiguration.customSize()
-        let maxColumns = Int(floor(collectionWidht/cellWidht))
+            let collectionWidht = collection.width
+            let cellWidht = 10+CellConfiguration.customSize()
+            let maxColumns = Int(floor(collectionWidht/cellWidht))
 
-        CellConfiguration.maxElements = maxRows * maxColumns
-        CellConfiguration.multiplier = multiplier
+            CellConfiguration.maxElements = maxRows * maxColumns
+            CellConfiguration.multiplier = multiplier
+        }
     }
 
     func resetRecord() {
